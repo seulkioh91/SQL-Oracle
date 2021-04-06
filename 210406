@@ -1,0 +1,117 @@
+SELECT salary,
+        salary/30 일급,
+        ROUND(salary/30, 0) 적용결과0,
+        ROUND(salary/30, 1) 적용결과1,
+        ROUND(salary/30,-1) 적용결과MINUS1
+FROM employees;
+
+-- 반올림할 자리값이 0이면 소수 첫째 자리에서 반올림
+-- 반올림할 자리값이 -1이면 정수 첫째 자리에서 반올림
+
+
+
+SELECT salary,
+        salary/30 일급,
+        TRUNC(salary/30, 0) 적용결과0,
+        TRUNC(salary/30, 1) 적용결과1,
+        TRUNC(salary/30,-1) 적용결과MINUS1
+FROM employees;
+
+-- 첨삭할 자리 값이 0이면 소수 첫째자리에서 절삭한다.
+-- 첨삭할 자리 값이 1이면 소수 둘째자리를 의미.
+
+
+SELECT TO_CHAR(SYSDATE, 'DD/MM/YY/HH24:MI') 오늘날짜,
+    SYSDATE + 1 더하기1,
+    SYSDATE - 1 빼기1,
+    TO_DATE('20171202')-TO_DATE('20171201') 날짜빼기,
+    SYSDATE + 13/24 시간더하기
+    
+FROM DUAL;
+--날짜표기 (내 오라클은 영문이므로 영어표기법으로 진행해야한다)
+
+
+SELECT SYSDATE, hire_date, MONTHS_BETWEEN(SYSDATE,hire_date) 적용결과
+FROM employees
+WHERE department_id = 100;
+
+SELECT hire_date,
+    ADD_MONTHS(hire_date, 3) 더하기_적용결과,
+    ADD_MONTHS(hire_date, -3) 빼기_적용결과
+FROM employees
+WHERE department_id BETWEEN 100 AND 106;
+
+
+SELECT hire_date,
+        NEXT_DAY(hire_date, 'FRI') 적용결과_문자,
+        NEXT_DAY(hire_date, 6)   적용결과_숫자
+FROM employees
+WHERE employee_id BETWEEN 100 AND 106;
+-- (내 오라클은 영문이므로 영어표기법으로 진행해야한다)
+
+
+SELECT hire_date,
+        LAST_DAY(hire_date) 적용결과
+FROM employees
+WHERE employee_id BETWEEN 100 AND 106;
+
+
+SELECT hire_date,
+        ROUND(hire_date, 'MONTH') 적용결과_ROUND_M,
+        ROUND(hire_date, 'YEAR') 적용결과_ROUND_Y,
+        TRUNC(hire_date, 'MONTH') 적용결과_ROUND_M,
+        TRUNC(hire_date, 'YEAR') 적용결과_ROUND_Y
+        
+FROM employees
+WHERE employee_id BETWEEN 100 AND 106;
+-- 일 월 년
+
+
+SELECT 1+ '2'
+FROM DUAL;
+
+--작은따옴표(' ')로 묶었기 때문에 문자 데이터 타입
+
+
+SELECT TO_CHAR(SYSDATE, 'YY'),
+         TO_CHAR(SYSDATE, 'YYYY'),
+         TO_CHAR(SYSDATE, 'MM'),
+         TO_CHAR(SYSDATE, 'MON'),
+         TO_CHAR(SYSDATE, 'YYYYMMDD'),
+         TO_CHAR(TO_DATE('20171008'), 'YYYYMMDD')
+
+FROM DUAL;
+
+
+
+SELECT salary * NVL(commission_pct, 1)
+
+FROM   employees
+
+ORDER BY commission_pct;
+
+--null을 삭제한다
+
+
+SELECT first_name,
+    last_name,
+    department_id,
+    salary 원래급여,
+    DECODE(department_id, 60, salary*1.1, salary) 조정된급여,
+    DECODE(department_id, 60, '10%인상', '미인상') 인상여부
+    
+FROM employees;
+
+ 
+ 
+ 
+ SELECT employee_id, first_name, last_name, salary,
+       CASE
+            WHEN salary >= 9000 THEN '상위급여'
+            WHEN salary BETWEEN 6000 AND 8999 THEN '중위급여'
+            ELSE '하위급여'
+       END AS 급여등급
+FROM  employees
+WHERE job_id = 'IT_PROG';
+
+
